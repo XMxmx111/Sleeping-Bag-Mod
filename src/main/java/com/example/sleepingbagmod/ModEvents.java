@@ -1,6 +1,6 @@
 package com.example.sleepingbagmod;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 
 public class ModEvents

@@ -1,16 +1,22 @@
 package com.example.sleepingbagmod;
 
+import com.example.sleepingbagmod.blocks.BlockSleepingBag;
 import com.example.sleepingbagmod.init.ModBlocks;
 import com.example.sleepingbagmod.init.ModItems;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+
+import static net.minecraft.block.Block.soundTypeCloth;
 
 @Mod(modid = SleepingBagMod.MODID, version = SleepingBagMod.VERSION)
 public class SleepingBagMod
@@ -23,14 +29,15 @@ public class SleepingBagMod
     {
         ModEvents modEvents = new ModEvents();
         ModItems.sleeping_bag.setUnlocalizedName("sleepingBag");
-        ModItems.sleeping_bag.setTextureName(MODID + ":sleeping_bag");
         ModItems.sleeping_bag.setCreativeTab(CreativeTabs.tabDecorations);
         ModItems.sleeping_bag.setMaxStackSize(1);
-        ModBlocks.sleeping_bag.setBlockName("sleepingBag");
-        ModBlocks.sleeping_bag.setBlockTextureName(MODID + ":sleeping_bag");
+        ModBlocks.sleeping_bag.setUnlocalizedName("sleepingBag");
         ModBlocks.sleeping_bag.setHardness(0.2F);
-        GameRegistry.registerItem(ModItems.sleeping_bag, "sleeping_bag_item", MODID);
+        ModBlocks.sleeping_bag.setStepSound(soundTypeCloth);
+        GameRegistry.registerItem(ModItems.sleeping_bag, "sleeping_bag_item");
         GameRegistry.registerBlock(ModBlocks.sleeping_bag, "sleeping_bag");
+        ModelLoader.setCustomModelResourceLocation(ModItems.sleeping_bag, 0, new ModelResourceLocation(MODID + ":sleeping_bag", "inventory"));
+        ModelLoader.setCustomStateMapper(ModBlocks.sleeping_bag, (new StateMap.Builder()).ignore(BlockSleepingBag.OCCUPIED).build());
         MinecraftForge.EVENT_BUS.register(modEvents);
     }
 
