@@ -1,16 +1,24 @@
 package com.example.sleepingbagmod;
 
+import com.example.sleepingbagmod.blocks.BlockSleepingBag;
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerSetSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 
 public class ModEvents
 {
     @SubscribeEvent
-    public void PlayerWakeUp(PlayerWakeUpEvent event)
+    public void onPlayerSetSpawn(PlayerSetSpawnEvent event)
     {
-        if (event.setSpawn)
+        World world = event.entityPlayer.worldObj;
+        if (event.newSpawn != null)
         {
-            System.out.println("Player Wake Up");
+            Block block = world.getBlockState(event.newSpawn).getBlock();
+            if (!world.isRemote && block instanceof BlockSleepingBag)
+            {
+                event.setCanceled(true);
+            }
         }
     }
 }
